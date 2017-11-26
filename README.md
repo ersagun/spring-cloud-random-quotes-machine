@@ -1,21 +1,21 @@
-#Random Quote Machine
-##Conception and Architecture
+# Random Quote Machine
+## Conception and Architecture
 ### Front End 
 Generated with Angular CLI version 1.0.3
 ### Microservices
-####Tweet-receive:
-####Tweet-source:
-####Tweet-storage:
+#### Tweet-receive:
+#### Tweet-source:
+#### Tweet-storage:
 
 
-##Distributed tracing system
-###Zipkin
+## Distributed tracing system
+### Zipkin
 
-##Latency and Fault tolerance library
-###Hystrix
+## Latency and Fault tolerance library
+### Hystrix
 
-##Microservice Registration and Discovery
-###Eureka 
+## Microservice Registration and Discovery
+### Eureka 
 
-##Orchestration of Microservices
-###Spring Cloud Dataflow
+## Orchestration of Microservices
+### Spring Cloud Dataflow
