@@ -3,12 +3,13 @@ package com.sfeir.tweetstorage.service;
 
 import com.qkyrie.markdown2pdf.internal.exceptions.ConversionException;
 import com.qkyrie.markdown2pdf.internal.exceptions.Markdown2PdfLogicException;
-import com.sfeir.tweetstorage.model.Translation;
-import com.sfeir.tweetstorage.model.Tweet;
 import net.steppschuh.markdowngenerator.image.Image;
 import net.steppschuh.markdowngenerator.text.Heading;
 import org.markdown4j.Markdown4jProcessor;
 import org.springframework.stereotype.Service;
+import shared.Translation;
+import shared.Tweet;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class StoreService {
             e.printStackTrace();
         }
         try {
+            assert fos != null;
             fos.write(out.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

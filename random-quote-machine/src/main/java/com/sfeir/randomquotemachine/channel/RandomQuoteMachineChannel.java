@@ -9,4 +9,9 @@ public interface RandomQuoteMachineChannel {
 
     @Input(RandomQuoteMachineChannel.INPUT)
     SubscribableChannel input();
+
+    String INPUTWIKI = "input-wiki";
+
+    @Input(RandomQuoteMachineChannel.INPUTWIKI)
+    SubscribableChannel inputWiki();
 }

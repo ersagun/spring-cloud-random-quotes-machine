@@ -1,8 +1,6 @@
 package com.sfeir.tweetsource;
 
-import com.sfeir.tweetsource.model.Tweet;
-import com.sfeir.tweetsource.repository.TweetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,9 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TweetSourceApplication implements CommandLineRunner {
 
 
-    @Autowired
-    private TweetRepository repository;
-
     public static void main(String[] args) {
         SpringApplication.run(TweetSourceApplication.class, args);
     }
@@ -21,6 +16,7 @@ public class TweetSourceApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+/*
         repository.deleteAll();
 
         // save a couple of tweet
@@ -59,6 +55,7 @@ public class TweetSourceApplication implements CommandLineRunner {
         repository.save(new Tweet("Like music and art, love of nature is a common language that can transcend political or social boundaries. – Jimmy Carter", "http://www.outdoorchanneloutfitters.com/wp-content/uploads/2014/10/camping-outdoors.jpg"));
 
         repository.save(new Tweet("Earth and sky, woods and fields, lakes and rivers, the mountain and the sea, are excellent schoolmasters, and teach of us more than we can ever learn from books. – John Lubbock", "http://onehdwallpaper.com/wp-content/uploads/2015/07/Free-Download-Mountain-Hd-Wallpapers.jpg"));
+*/
 
     }
 }

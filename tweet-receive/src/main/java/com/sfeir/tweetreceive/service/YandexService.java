@@ -1,9 +1,9 @@
 package com.sfeir.tweetreceive.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sfeir.tweetreceive.model.Translation;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import shared.Translation;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
 public class YandexService {
 
 
-    RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
 
     public Translation translateByType(String text, String languageDirection) {
 

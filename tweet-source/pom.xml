@@ -26,11 +26,30 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.sfeir</groupId>
+			<artifactId>shared-model</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-stream</artifactId>
+			<version>4.0.6</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -50,17 +69,11 @@
 			<version>5.0.1.RELEASE</version>
 		</dependency>
 
-
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
-			<version>3.0.6.BUILD-SNAPSHOT</version>
-		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>1.10.3.RELEASE</version>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 
 	<dependencyManagement>
