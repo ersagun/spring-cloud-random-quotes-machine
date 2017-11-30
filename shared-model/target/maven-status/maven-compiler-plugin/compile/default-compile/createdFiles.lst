@@ -1,4 +1,5 @@
 shared/TweetWiki.class
+shared/User.class
 shared/Translation.class
 shared/wiki/Query.class
 shared/wiki/Pages.class

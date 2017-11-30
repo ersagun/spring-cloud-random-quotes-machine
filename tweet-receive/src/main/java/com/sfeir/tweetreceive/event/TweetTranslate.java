@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import shared.Translation;
 import shared.Tweet;
 import shared.TweetStatistics;
+import shared.User;
 import shared.wiki.Wiki;
 
 import java.time.Duration;
@@ -68,7 +69,7 @@ public class TweetTranslate {
     @SendTo(TweetTranslateChannel.OUTPUT)
     public  Flux<TweetStatistics> translation(Flux<Tweet> tweet) {
          return tweet.window(Duration.ofSeconds(10), Duration.ofSeconds(10))
-                .flatMap(window -> window.groupBy(TweetStatus -> TweetStatus.getClass().getName())
+                .flatMap(window -> window.groupBy(tweetValue -> tweetValue.getUser().getSearchQuery())
                         .flatMap(groupTweet -> calculateStatisticsForTweets(groupTweet)));
     }
 
@@ -76,9 +77,9 @@ public class TweetTranslate {
     private Mono<TweetStatistics> calculateStatisticsForTweets(GroupedFlux<String, Tweet> group) {
         System.out.println("called");
         return group
-                .reduce(new TweetStatistics(0, 0,0), (ts, d) -> {
-                        return new TweetStatistics(ts.getNumberOfTweet() + 1, ts.getAverageNumberOfCharacterByTweet() + d.getText().length(), d.getId());})
-                .map(accumulator -> new TweetStatistics((accumulator.getNumberOfTweet()),(accumulator.getAverageNumberOfCharacterByTweet()/accumulator.getNumberOfTweet()), accumulator.getAverageAge()));
+                .reduce(new TweetStatistics(0, 0,0,new User()), (ts, d) -> {
+                        return new TweetStatistics(ts.getNumberOfTweet() + 1, ts.getAverageNumberOfCharacterByTweet() + d.getText().length(), d.getId(),d.getUser());})
+                .map(accumulator -> new TweetStatistics((accumulator.getNumberOfTweet()),(accumulator.getAverageNumberOfCharacterByTweet()/accumulator.getNumberOfTweet()), accumulator.getAverageAge(),accumulator.getUser()));
     }
 
 

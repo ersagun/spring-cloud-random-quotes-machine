@@ -7,16 +7,18 @@ public class Tweet {
     private int age;
     private  String text;
     private int numberOfFollower;
+    private User user;
 
     public Tweet() {
     }
 
-    public Tweet(int id, String name, int age, String text, int numberOfFollower) {
+    public Tweet(int id, String name, int age, String text, int numberOfFollower, User user) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.text = text;
         this.numberOfFollower = numberOfFollower;
+        this.user = user;
     }
 
     public int getId() {
@@ -59,6 +61,14 @@ public class Tweet {
         this.numberOfFollower = numberOfFollower;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Tweet{" +
@@ -67,6 +77,7 @@ public class Tweet {
                 ", age=" + age +
                 ", text='" + text + '\'' +
                 ", numberOfFollower=" + numberOfFollower +
+                ", user=" + user +
                 '}';
     }
 }
