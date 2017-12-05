@@ -54,7 +54,6 @@ public class User {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (searchQuery != null ? searchQuery.hashCode() : 0);
         return result;
     }
 

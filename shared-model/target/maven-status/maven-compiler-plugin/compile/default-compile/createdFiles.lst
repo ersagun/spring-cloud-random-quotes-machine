@@ -1,11 +1,3 @@
-shared/TweetWiki.class
-shared/User.class
-shared/TweetStats.class
-shared/Translation.class
-shared/wiki/Query.class
-shared/wiki/Pages.class
-shared/TweetStatus.class
-shared/wiki/Wiki.class
 shared/Tweet.class
-shared/wiki/Page.class
-shared/TweetStatistics.class
+shared/TweetStats.class
+shared/User.class

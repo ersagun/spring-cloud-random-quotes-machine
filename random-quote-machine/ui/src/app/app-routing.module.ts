@@ -3,7 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {TweetComponent} from "./tweet/tweet.component";
 
 const routes : Routes = [
-  {path: 'tweet/:key/:name/:searchQuery', component: TweetComponent}
+  {path: '', component: TweetComponent}
 ];
 
 @NgModule({

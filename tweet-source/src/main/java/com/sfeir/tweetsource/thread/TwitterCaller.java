@@ -38,9 +38,29 @@ public class TwitterCaller implements Runnable {
 
     @Override
     public void run() {
+
+/*
+        Tweet tweet = new Tweet(this.counter.getAndIncrement(),
+                ( this.user.getName() != null) ?  this.user.getName() : "",
+                21,
+                "hello",
+                2002,
+                this.user
+        );
+
+        for (int i=0;i<100;i++) {
+            boolean sended = this.tweetSourceChannel.outputUserTweetData().send(MessageBuilder.withPayload(tweet).setHeader("type", "tweet-data").build());
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.WARNING, "Connection is stopped for " + user.getName());
+            }
+        }
+*/
+
+
         Query query = new Query("track:" + this.user.getSearchQuery());
         query.setCount(100);
-
         QueryResult result = this.getTweets(query);
 
         if (result != null && result.getTweets() != null) {

@@ -82,20 +82,4 @@ public class SseController {
 
         return sseEmitter;
     }
-
-
-    @CrossOrigin("http://localhost:4200")
-    @GetMapping("/api/stream/{key}/{name}/{searchQuery}/stop")
-    @ResponseBody
-    String stopStreamConnection(@PathVariable String name, @PathVariable String searchQuery, @PathVariable int key) {
-
-        User user = new User(key, name, searchQuery);
-        if (!this.sseManager.sseContainsUser(user)) {
-            LOGGER.log(Level.INFO, "User " + name + " connection is TIMEOUT");
-            boolean closed = this.randomQuoteMachineChannel.outputSubscriptionUserTweet().send(MessageBuilder.withPayload(user).setHeader("type", "stop-user").build());
-            this.sseManager.removeUserFromSseTweet(user);
-        }else   LOGGER.log(Level.INFO, "User " + user + " not found");
-        return "Ok";
-    }
-
 }

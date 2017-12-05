@@ -52,6 +52,7 @@ public class ScheduledFutureManager {
 
     public void fallbackCreateUserThreadAndAddToList(User user, Throwable throwable){
         LOGGER.log(Level.WARNING, "Thread creation and storage of user " + user.getName()+"  failed. Operation is catched by circuit breaker: " +throwable.toString());
+        this.stopUserThread(user);
     }
 
     @HystrixCommand(fallbackMethod = "fallbackStopUserThread")

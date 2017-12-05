@@ -27,13 +27,11 @@ public class TweetLogger {
 
     @StreamListener(target = RandomQuoteMachineChannel.INPUT_USER_TWEET_DATA, condition = "headers['type']=='tweet-data'")
     public void sendTweetToSee(Tweet tweet) {
-        LOGGER.log(Level.INFO, "Tweet are sending to " + tweet.getUser().getName());
         this.sseManager.sendTweetToSseUser(tweet);
     }
 
     @StreamListener(RandomQuoteMachineChannel.INPUT_USER_TWEET_STATS_DATA)
     public void sendTweetStatsToSee(TweetStats tweetStats) {
-        LOGGER.log(Level.INFO, "Tweet Stats are sending to " + tweetStats.getUser().getName());
         this.sseManager.sendTweetStatsToSseUser(tweetStats);
     }
 }

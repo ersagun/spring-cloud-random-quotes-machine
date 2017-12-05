@@ -57,6 +57,7 @@ public class SseManager {
     public void sendTweetToSseUser(Tweet tweet){
         if(this.sseTweet.containsKey(tweet.getUser())) {
             try {
+                LOGGER.log(Level.INFO, "Tweet are sending to " + tweet.getUser().getName());
                 this.sseTweet.get(tweet.getUser()).send(tweet);
             } catch (Exception e) {
                 throw new RuntimeException("Simulating downstream system failure");
@@ -73,6 +74,7 @@ public class SseManager {
     public  void sendTweetStatsToSseUser(TweetStats tweetStats){
         if(this.sseTweet.containsKey(tweetStats.getUser())) {
             try {
+                LOGGER.log(Level.INFO, "Tweet Stats are sending to " + tweetStats.getUser().getName());
                 this.sseTweet.get(tweetStats.getUser()).send(tweetStats);
             } catch (Exception e) {
                 throw new RuntimeException("Simulating downstream system failure");

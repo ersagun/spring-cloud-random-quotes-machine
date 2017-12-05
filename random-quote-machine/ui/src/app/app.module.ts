@@ -8,7 +8,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "./app-routing.module";
 import { TweetComponent } from './tweet/tweet.component';
 import {NgxGaugeModule} from "ngx-gauge";
-import {NgxGauge} from "ngx-gauge/gauge/gauge";
+import {SearchService} from "./service/search.service";
 
 
 @NgModule({
@@ -24,7 +24,9 @@ import {NgxGauge} from "ngx-gauge/gauge/gauge";
     HttpClientModule,
     NgxGaugeModule
   ],
-  providers: [],
+  providers: [
+    SearchService
+  ],
   exports: [],
   bootstrap: [AppComponent]
 })
