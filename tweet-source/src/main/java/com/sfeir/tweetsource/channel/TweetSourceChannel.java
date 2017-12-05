@@ -6,17 +6,12 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface TweetSourceChannel {
-    String OUTPUT = "output-tweet";
-
-    @Output(TweetSourceChannel.OUTPUT)
-    MessageChannel output();
-
-
-    String INPUT = "input-user";
-    @Input(TweetSourceChannel.INPUT)
-    SubscribableChannel input();
+    String OUTPUT_USER_TWEET_DATA = "output-user-tweet-data";
+    @Output(TweetSourceChannel.OUTPUT_USER_TWEET_DATA)
+    MessageChannel outputUserTweetData();
 
 
-
-
+    String INPUT_SUBSCRIPTION_USER_TWEET = "input-subscription-user-tweet";
+    @Input(TweetSourceChannel.INPUT_SUBSCRIPTION_USER_TWEET)
+    SubscribableChannel inputSubscriptionUserTweet();
 }

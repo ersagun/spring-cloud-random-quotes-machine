@@ -7,23 +7,24 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface RandomQuoteMachineChannel {
-    String INPUT = "input-tweet";
-    @Input(RandomQuoteMachineChannel.INPUT)
-    SubscribableChannel input();
 
-    String OUTPUT = "output-user";
-    @Output(RandomQuoteMachineChannel.OUTPUT)
-    MessageChannel output();
+    String OUTPUT_SUBSCRIPTION_USER_TWEET = "output-subscription-user-tweet";
+    @Output(RandomQuoteMachineChannel.OUTPUT_SUBSCRIPTION_USER_TWEET)
+    MessageChannel outputSubscriptionUserTweet();
 
-    String INPUTSTATS = "tweet-statistics";
-    @Input(RandomQuoteMachineChannel.INPUTSTATS)
-    SubscribableChannel inputStats();
-
-    String INPUTWIKI = "input-wiki";
-    @Input(RandomQuoteMachineChannel.INPUTWIKI)
-    SubscribableChannel inputWiki();
+    String OUTPUT_SUBSCRIPTION_USER_TWEET_STATS = "output-subscription-user-tweet-stats";
+    @Output(RandomQuoteMachineChannel.OUTPUT_SUBSCRIPTION_USER_TWEET_STATS)
+    MessageChannel outputSubscriptionUserTweetStats();
 
 
+    String INPUT_USER_TWEET_DATA = "input-user-tweet-data";
+    @Input(RandomQuoteMachineChannel.INPUT_USER_TWEET_DATA)
+    SubscribableChannel inputUserTweetData();
+
+
+    String INPUT_USER_TWEET_STATS_DATA = "input-user-tweet-stats-data";
+    @Input(RandomQuoteMachineChannel.INPUT_USER_TWEET_STATS_DATA)
+    SubscribableChannel inputUserTweetStatsData();
 
 
 }

@@ -6,14 +6,14 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface TweetStorageChannel {
-    String INPUT = "input-tweet";
 
-    @Input(TweetStorageChannel.INPUT)
-    SubscribableChannel input();
+    String INPUT_USER_TWEET_DATA = "input-user-tweet-data";
+    @Input(TweetStorageChannel.INPUT_USER_TWEET_DATA)
+    SubscribableChannel inputUserTweetData();
 
 
-    String OUTPUT = "output-tweet";
+    String OUTPUT_USER_TWEET_STATS_DATA = "output-user-tweet-stats-data";
+    @Output(TweetStorageChannel.OUTPUT_USER_TWEET_STATS_DATA)
+    MessageChannel outputUserTweetStatsData();
 
-    @Output(TweetStorageChannel.OUTPUT)
-    MessageChannel output();
 }

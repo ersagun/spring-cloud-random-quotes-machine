@@ -1,31 +1,32 @@
 package com.sfeir.tweetstorage.service;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
+import org.springframework.stereotype.Service;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 public class GoogleSentimentAnalyzer {
+    private static final Logger LOGGER = Logger.getLogger(GoogleSentimentAnalyzer.class.getName());
 
-    public Float sentimentAnalyzer(String text){
-        // Instantiates a client
-        Float sentimentScore=0f;
-        Float sentimentMagnitude=0f;
-        try {
-            try (LanguageServiceClient language = LanguageServiceClient.create()) {
+    public Sentiment sentimentAnalyzer(String text){
+        Sentiment sentiment = null;
+
+        try (LanguageServiceClient language = LanguageServiceClient.create()) {
                 Document doc = Document.newBuilder()
                         .setContent(text).setType(Document.Type.PLAIN_TEXT).build();
                 // Detects the sentiment of the text
-                Sentiment sentiment = language.analyzeSentiment(doc).getDocumentSentiment();
-                System.out.println("created language "+ sentiment);
+                sentiment = language.analyzeSentiment(doc).getDocumentSentiment();
                 if(sentiment==null)
                     System.out.println("sentiment not found");
 
-                System.out.printf("Text: %s%n", text);
-                System.out.printf("Sentiment: %s, %s%n", sentiment.getScore(), sentiment.getMagnitude());
-                sentimentScore = sentiment.getScore();
-                sentimentMagnitude = sentiment.getMagnitude();
-            }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Seniment analyzer has a problem to analyze :" + text);
         }
-        return sentimentScore;
+        return sentiment;
     }
 
 }

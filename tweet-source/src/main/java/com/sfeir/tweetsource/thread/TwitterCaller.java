@@ -1,5 +1,6 @@
 package com.sfeir.tweetsource.thread;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.sfeir.tweetsource.channel.TweetSourceChannel;
 import org.springframework.integration.support.MessageBuilder;
 import shared.Tweet;
@@ -37,41 +38,57 @@ public class TwitterCaller implements Runnable {
 
     @Override
     public void run() {
-
-  /*
         Query query = new Query("track:" + this.user.getSearchQuery());
-        QueryResult result = null;
-      try {
-            result = this.twitter.search(query);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        for (Status status : result.getTweets()) {
-            Tweet tweet = new Tweet(this.counter.getAndIncrement(),
-                    (status.getUser().getName() != null) ? status.getUser().getName() : "",
-                    status.getUser().getFavouritesCount(),
-                    (status.getText() != null) ? status.getText() : "",
-                    status.getUser().getFollowersCount(),
-                    this.user
-            );
+        query.setCount(100);
 
-*/
-        if (!Thread.currentThread().isInterrupted()) {
-            boolean sended = this.tweetSourceChannel.output().send(MessageBuilder.withPayload(new Tweet(0, user.getName(), 0, "", 0, user)).setHeader("type", "tweet").build());
-            if (sended)
-                LOGGER.log(Level.INFO, "Message is sended to user " + user.getName());
-            else LOGGER.log(Level.WARNING, "Message is not sended");
+        QueryResult result = this.getTweets(query);
 
-            try {
-                TimeUnit.MILLISECONDS.sleep(200);
-            } catch (InterruptedException e) {
-                LOGGER.log(Level.WARNING, "Connection is stopped for " + user.getName());
+        if (result != null && result.getTweets() != null) {
+            for (Status status : result.getTweets()) {
+                Tweet tweet = new Tweet(this.counter.getAndIncrement(),
+                        (status.getUser().getName() != null) ? status.getUser().getName() : "",
+                        status.getUser().getFavouritesCount(),
+                        (status.getText() != null) ? status.getText() : "",
+                        status.getUser().getFollowersCount(),
+                        this.user
+                );
+
+                if (!Thread.currentThread().isInterrupted()) {
+                    boolean sended = this.tweetSourceChannel.outputUserTweetData().send(MessageBuilder.withPayload(tweet).setHeader("type", "tweet-data").build());
+
+                    if (sended) {
+                        LOGGER.log(Level.INFO, "Message is sended to user " + user.getName());
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(500);
+                        } catch (InterruptedException e) {
+                            LOGGER.log(Level.WARNING, "Connection is stopped for " + user.getName());
+                        }
+                    } else LOGGER.log(Level.WARNING, "Message is not sended");
+                } else {
+                    LOGGER.log(Level.INFO, "Thread is stopped");
+                }
             }
-        } else {
-            LOGGER.log(Level.WARNING, "Thread is stopped");
-            Thread.currentThread().interrupt();
         }
-
     }
+
+    @HystrixCommand(fallbackMethod = "fallbackGetTweets")
+    public QueryResult getTweets(Query query) {
+        QueryResult queryResult = null;
+        try {
+            LOGGER.log(Level.INFO, "Twit search");
+            queryResult = this.twitter.search(query);
+        } catch (TwitterException e) {
+            LOGGER.log(Level.WARNING, "Twitter has exception");
+        }
+        return queryResult;
+    }
+
+    public QueryResult fallbackGetTweets(Query query, Throwable throwable){
+        LOGGER.log(Level.WARNING, "Twitter is not accessible => managed by fallback method");
+        QueryResult queryResult =null;
+        return queryResult;
+    }
+
+
 }
-//}
+

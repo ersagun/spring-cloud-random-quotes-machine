@@ -1,13 +1,13 @@
 package com.sfeir.randomquotemachine.service;
 
-import com.sfeir.randomquotemachine.controller.SseController;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import org.springframework.web.util.NestedServletException;
 import shared.Tweet;
+import shared.TweetStats;
 import shared.User;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,38 +33,58 @@ public class SseManager {
         this.sseTweet = sseTweet;
     }
 
-    public synchronized SseEmitter addAndReturnSseEmitter(User user) {
+
+    public  SseEmitter addAndReturnSseEmitter(User user) {
         SseEmitter sseEmitter = new SseEmitter(600 * 1000L);
         sseTweet.put(user, sseEmitter);
         return sseEmitter;
     }
 
-    public synchronized SseEmitter getSseEmitterFromUser(User user) {
+    public  SseEmitter getSseEmitterFromUser(User user) {
         return sseTweet.get(user);
     }
 
 
-
-    public synchronized SseEmitter removeUserFromSseTweet(User user) {
+    public  void removeUserFromSseTweet(User user) {
         if(this.sseContainsUser(user)) {
             LOGGER.log(Level.INFO,"User is removed from sset tweet list");
             this.sseTweet.get(user).complete();
+            this.sseTweet.remove(user);
         }
-        return this.sseTweet.remove(user);
     }
 
-    public synchronized boolean sseContainsUser(User user) {
-        return this.sseTweet.containsKey(user);
-    }
-
-
-    public synchronized void sendTweetToSseUser(Tweet tweet){
+    @HystrixCommand(fallbackMethod = "fallbackSendTweetToSseUser")
+    public void sendTweetToSseUser(Tweet tweet){
         if(this.sseTweet.containsKey(tweet.getUser())) {
             try {
                 this.sseTweet.get(tweet.getUser()).send(tweet);
             } catch (Exception e) {
-                LOGGER.log(Level.INFO, "User "+tweet.getUser()+ "'s connection is broken.");
+                throw new RuntimeException("Simulating downstream system failure");
             }
         }
+    }
+
+    public void fallbackSendTweetToSseUser(Tweet tweet, Throwable throwable) {
+        LOGGER.log(Level.INFO, "User "+tweet.getUser()+ "'s connection is broken. Failure catched by circuit breaker, message is not sended to "+ tweet.getUser().getId());
+    }
+
+
+    @HystrixCommand(fallbackMethod = "fallbackSendTweetStatsToSseUser")
+    public  void sendTweetStatsToSseUser(TweetStats tweetStats){
+        if(this.sseTweet.containsKey(tweetStats.getUser())) {
+            try {
+                this.sseTweet.get(tweetStats.getUser()).send(tweetStats);
+            } catch (Exception e) {
+                throw new RuntimeException("Simulating downstream system failure");
+            }
+        }
+    }
+
+    public void fallbackSendTweetStatsToSseUser(TweetStats tweetStats, Throwable throwable) {
+        LOGGER.log(Level.INFO, "User "+tweetStats.getUser()+ "'s connection is broken. Failure catched by circuit breaker, message is not sended to "+ tweetStats.getUser().getId());
+    }
+
+    public  boolean sseContainsUser(User user) {
+        return this.sseTweet.containsKey(user);
     }
 }

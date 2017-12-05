@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "./app-routing.module";
 import { TweetComponent } from './tweet/tweet.component';
+import {NgxGaugeModule} from "ngx-gauge";
+import {NgxGauge} from "ngx-gauge/gauge/gauge";
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { TweetComponent } from './tweet/tweet.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxGaugeModule
   ],
   providers: [],
   exports: [],
