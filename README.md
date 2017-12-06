@@ -1,5 +1,8 @@
 # Random Quote Machine
 ## Conception and Architecture
+![Alt text](tweets.svg?raw=true "Conception and Architecture")
+
+
 ### Front End 
 Generated with Angular CLI version 1.0.3
 ### Microservices
